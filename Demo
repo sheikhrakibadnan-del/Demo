@@ -12,11 +12,6 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-    <!-- AdCash স্ক্রিপ্ট -->
-    <script type="text/javascript">
-        aclib.runAutoTag({
-            zoneId: 'wfpp7h3wp3',
-        });
     </script>
     <style>
         /* আপনার সকল CSS স্টাইল অপরিবর্তিত */
