@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>রিয়েল ক্যাশ বাংলাদেশ</title>
+    <!-- শুধুমাত্র onclicka.js রিমুভ করা হয়েছে -->
+    <script src='//libtl.com/sdk.js' data-zone='9593694' data-sdk='show_9593694'></script>
+    <!-- Giga Ads স্ক্রিপ্ট -->
+    <script src="https://ad.gigapub.tech/script?id=1670"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <!-- AdCash স্ক্রিপ্ট -->
+    <script type="text/javascript">
+        aclib.runAutoTag({
+            zoneId: 'wfpp7h3wp3',
+        });
+    </script>
+    <style>
+        /* আপনার সকল CSS স্টাইল অপরিবর্তিত */
+        :root {
+            --primary: #00c853;
+            --primary-dark: #009624;
+            --secondary: #ff6d00;
+            --secondary-dark: #e65100;
+            --blue: #4285f4;
+            --blue-dark: #3367d6;
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --light: #f5f5f5;
+            --gray: #2a2a2a;
+            --card-bg: #1f1f1f;
+            --gold: #ffd700;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--darker), #1a1a2e);
+            color: var(--light);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(0, 200, 83, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 109, 0, 0.1) 0%, transparent 20%);
+            z-index: -1;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .header {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            padding: 25px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, 
+                rgba(255,255,255,0.1) 0%,
+                rgba(255,255,255,0) 50%,
+                rgba(255,255,255,0.1) 100%);
+            z-index: 1;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .developer {
+            display: inline-block;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+            backdrop-filter: blur(5px);
+        }
+        
+        .developer:hover {
+            background: rgba(0, 0, 0, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .content {
+            padding: 25px;
+        }
+        
+        .user-info {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        
+        .user-info p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        
+        .user-badge {
+            position: absolute;
+            top: -10px;
+            right: 15px;
+            background: var(--gold);
+            color: #000;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 15px 10px;
+            width: 45%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        
+        .stat-card h3 {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #aaa;
+        }
+        
+        .stat-card .value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        /* 3D বাটন স্টাইল */
+        .btn-3d {
+            position: relative;
+            padding: 16px 20px;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            color: white;
+            text-align: center;
+            transition: all 0.2s ease;
+            transform-style: preserve-3d;
+            perspective: 500px;
+            box-shadow: 
+                0 8px 0 var(--primary-dark),
+                0 15px 20px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn-3d::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            z-index: -1;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-3d::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.2), 
+                transparent);
+            transition: all 0.5s ease;
+            z-index: -1;
+        }
+        
+        .btn-3d:hover {
+            transform: translateY(4px);
+            box-shadow: 
+                0 4px 0 var(--primary-dark),
+                0 8px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-3d:hover::after {
+            left: 100%;
+        }
+        
+        .btn-3d:active {
+            transform: translateY(8px);
+            box-shadow: 
+                0 0 0 var(--primary-dark),
+                0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-secondary {
+            box-shadow: 
+                0 8px 0 var(--secondary-dark),
+                0 15px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-secondary::before {
+            background: linear-gradient(45deg, var(--secondary), #ff9100);
+        }
+        
+        .btn-blue {
+            box-shadow: 
+                0 8px 0 var(--blue-dark),
+                0 15px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-blue::before {
+            background: linear-gradient(45deg, var(--blue), #64b5f6);
+        }
+        
+        .website-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+        
+        .website-section h3 {
+            color: #64b5f6;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 15px;
+            color: #777;
+            font-size: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .firebase-logo {
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 10px;
+            background: rgba(255, 152, 0, 0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: #ffa726;
+        }
+        
+        .ad-container {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .ad-label {
+            font-size: 12px;
+            color: #aaa;
+            margin-bottom: 10px;
+        }
+        
+        /* বিজ্ঞাপন দেখার অ্যানিমেশন */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 0.5s ease;
+        }
+        
+        .ad-notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            z-index: 1000;
+            display: none;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+        
+        /* উত্তোলন সেকশন */
+        .withdraw-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+        
+        .withdraw-section h3 {
+            color: var(--gold);
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .withdraw-input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+        }
+        
+        .withdraw-input:focus {
+            outline: 2px solid var(--primary);
+        }
+        
+        /* লগইন মডাল স্টাইল */
+        .auth-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .auth-container {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .auth-tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .auth-tab.active {
+            background: var(--primary);
+            font-weight: bold;
+        }
+        
+        .auth-tab:first-child {
+            border-radius: 10px 0 0 10px;
+        }
+        
+        .auth-tab:last-child {
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .auth-form {
+            display: none;
+        }
+        
+        .auth-form.active {
+            display: block;
+        }
+        
+        .auth-input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+        }
+        
+        .auth-input:focus {
+            outline: 2px solid var(--primary);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #aaa;
+        }
+        
+        /* সোশ্যাল মিডিয়া আইকন */
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--blue);
+            color: white;
+            font-size: 20px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .social-icon:hover {
+            transform: translateY(-5px);
+        }
+        
+        .social-icon.facebook { background: #3b5998; }
+        .social-icon.telegram { background: #0088cc; }
+        .social-icon.youtube { background: #ff0000; }
+        .social-icon.whatsapp { background: #25D366; }
+        
+        /* রেসপন্সিভ ডিজাইন */
+        @media (max-width: 480px) {
+            .container {
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .auth-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ad-notification" id="ad-notification">বিজ্ঞাপন সম্পন্ন হয়েছে! +০.৩৫ পয়েন্ট যোগ হয়েছে</div>
+    
+    <!-- লগইন মডাল -->
+    <div class="auth-modal" id="auth-modal">
+        <div class="auth-container">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <div class="auth-tabs">
+                <div class="auth-tab active" id="login-tab">লগইন</div>
+                <div class="auth-tab" id="register-tab">রেজিস্টার</div>
+            </div>
+            
+            <div class="auth-form active" id="login-form">
+                <input type="email" id="login-email" class="auth-input" placeholder="ইমেইল">
+                <input type="password" id="login-password" class="auth-input" placeholder="পাসওয়ার্ড">
+                <button class="btn-3d" id="login-btn">লগইন</button>
+                <p style="text-align: center; margin-top: 15px; color: #aaa;">অ্যাকাউন্ট নেই? <span style="color: var(--primary); cursor: pointer;" id="switch-to-register">রেজিস্টার করুন</span></p>
+            </div>
+            
+            <div class="auth-form" id="register-form">
+                <input type="text" id="register-name" class="auth-input" placeholder="পুরো নাম">
+                <input type="email" id="register-email" class="auth-input" placeholder="ইমেইল">
+                <input type="password" id="register-password" class="auth-input" placeholder="পাসওয়ার্ড">
+                <input type="password" id="register-confirm-password" class="auth-input" placeholder="পাসওয়ার্ড নিশ্চিত করুন">
+                <button class="btn-3d btn-secondary" id="register-btn">রেজিস্টার</button>
+                <p style="text-align: center; margin-top: 15px; color: #aaa;">ইতিমধ্যে অ্যাকাউন্ট আছে? <span style="color: var(--primary); cursor: pointer;" id="switch-to-login">লগইন করুন</span></p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container" id="main-container" style="display: none;">
+        <div class="header">
+            <h1>রিয়েল ক্যাশ বাংলাদেশ</h1>
+            <div class="developer" onclick="window.location.href='https://t.me/RKDEVELOPER22'">ডেভেলপার: শেখ রাকিব আদনান</div>
+        </div>
+        
+        <div class="content">
+            <div class="user-info">
+                <div class="user-badge">ড্যাশবোর্ড</div>
+                <p>স্বাগতম, <span id="user-name">ইউজার১২৩</span></p>
+                <p>ইমেইল: <span id="user-email">user@example.com</span></p>
+                <button class="btn-3d btn-secondary" style="margin-top: 10px; padding: 8px 15px; font-size: 14px;" id="logout-btn">লগআউট</button>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-card">
+                    <h3>দেখা বিজ্ঞাপন</h3>
+                    <div class="value" id="watched-ads">০</div>
+                </div>
+                <div class="stat-card">
+                    <h3>উপার্জিত পয়েন্ট</h3>
+                    <div class="value" id="earned-points">০.০০</div>
+                </div>
+            </div>
+            
+            <div class="ad-container">
+                <div class="ad-label">মনিটাগ বিজ্ঞাপন</div>
+                <div class="buttons">
+                    <button class="btn-3d" id="watch-ad-btn" onclick="watchAd()">বিজ্ঞাপন দেখুন (+০.৩৫)</button>
+                    <button class="btn-3d btn-secondary" id="visit-to-earn-btn" onclick="visitToEarn()">ভিজিট করে উপার্জন করুন</button>
+                </div>
+            </div>
+            
+            <div class="withdraw-section">
+                <h3>উপার্জন উত্তোলন করুন</h3>
+                <p>ন্যূনতম উত্তোলন: ৳১০০.০০ (‎২৪ ঘন্টার মধ্যে পেমেন্ট পেয়ে যাবেন)</p>
+                <p>১টি বিজ্ঞাপন = ০.৩৫ পয়েন্ট | ১০০ পয়েন্ট = ৳১০০.০০</p>
+                <input type="number" id="withdraw-amount" class="withdraw-input" placeholder="উত্তোলনের পরিমাণ লিখুন" step="0.01" min="0">
+                <input type="text" id="payment-method" class="withdraw-input" placeholder="শুধুমাত্র বিকাশ/নগদ">
+                <input type="text" id="payment-details" class="withdraw-input" placeholder="মোবাইল নম্বর">
+                <button class="btn-3d btn-blue" id="withdraw-btn" onclick="requestWithdrawal()">উত্তোলন অনুরোধ করুন</button>
+            </div>
+            
+            <div class="website-section">
+                <h3>আমাদের সাথে সংযুক্ত থাকুন</h3>
+                <p>যে কোনো প্রয়োজনে আমাদের সোশ্যাল মিডিয়া পেজে ভিজিট করুন</p>
+                <div class="social-icons">
+                    <div class="social-icon facebook" onclick="window.open('https://www.facebook.com/shekhrakibadnan69', '_blank')">f</div>
+                    <div class="social-icon telegram" onclick="window.open('https://t.me/RKDEVELOPER22', '_blank')">t</div>
+                    <div class="social-icon youtube" onclick="window.open('https://youtube.com', '_blank')">y</div>
+                    <div class="social-icon whatsapp" onclick="window.open('https://wa.me', '_blank')">w</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>ফায়ারবেস দ্বারা সুরক্ষিত • সকল লেনদেন সুরক্ষিত</p>
+            <div class="firebase-logo">ফায়ারবেস</div>
+        </div>
+    </div>
+
+    <script>
+        // Firebase কনফিগারেশন
+        const firebaseConfig = {
+            apiKey: "AIzaSyA6dXx6dofu6KlQWMl0VwsVxB0hNNtTGDw",
+            authDomain: "real-cbaa6.firebaseapp.com",
+            databaseURL: "https://real-cbaa6-default-rtdb.firebaseio.com",
+            projectId: "real-cbaa6",
+            storageBucket: "real-cbaa6.firebasestorage.app",
+            messagingSenderId: "723340125605",
+            appId: "1:723340125605:web:e46b3a1f15499a1fe2b44c",
+            measurementId: "G-6FWJC1QX78"
+        };
+        
+        // Firebase ইনিশিয়ালাইজ
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        
+        // ধ্রুবক
+        const POINTS_PER_AD = 0.35; // বিজ্ঞাপন প্রতি পয়েন্ট (০.৫০ থেকে ০.৩৫ করা হয়েছে)
+        const MIN_WITHDRAWAL = 100.00; // ন্যূনতম উত্তোলন ১০০ টাকা
+        const POINTS_TO_TAKA_RATE = 1; // ১ পয়েন্ট = ১ টাকা
+        
+        // স্টেট ভেরিয়েবল
+        let watchedAdsCount = 0;
+        let earnedPoints = 0;
+        let currentUser = null;
+        
+        // DOM এলিমেন্ট
+        const watchedAdsEl = document.getElementById('watched-ads');
+        const earnedPointsEl = document.getElementById('earned-points');
+        const adNotificationEl = document.getElementById('ad-notification');
+        const authModalEl = document.getElementById('auth-modal');
+        const mainContainerEl = document.getElementById('main-container');
+        const loginFormEl = document.getElementById('login-form');
+        const registerFormEl = document.getElementById('register-form');
+        const loginTabEl = document.getElementById('login-tab');
+        const registerTabEl = document.getElementById('register-tab');
+        const switchToRegisterEl = document.getElementById('switch-to-register');
+        const switchToLoginEl = document.getElementById('switch-to-login');
+        const closeModalEl = document.getElementById('close-modal');
+        const loginBtnEl = document.getElementById('login-btn');
+        const registerBtnEl = document.getElementById('register-btn');
+        const logoutBtnEl = document.getElementById('logout-btn');
+        const withdrawBtnEl = document.getElementById('withdraw-btn');
+        const visitToEarnBtnEl = document.getElementById('visit-to-earn-btn');
+        
+        // অ্যাপ ইনিশিয়ালাইজ
+        function initApp() {
+            // অথ স্টেট চেক করুন
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    // ইউজার লগইন আছে
+                    currentUser = user;
+                    loadUserData(user.uid);
+                    document.getElementById('user-name').textContent = user.displayName || `ইউজার${Math.floor(1000 + Math.random() * 9000)}`;
+                    document.getElementById('user-email').textContent = user.email;
+                    authModalEl.style.display = 'none';
+                    mainContainerEl.style.display = 'block';
+                } else {
+                    // কোন ইউজার লগইন নেই
+                    authModalEl.style.display = 'flex';
+                    mainContainerEl.style.display = 'none';
+                }
+            });
+            
+            // ইভেন্ট লিসেনার সেটআপ
+            loginTabEl.addEventListener('click', () => switchAuthTab('login'));
+            registerTabEl.addEventListener('click', () => switchAuthTab('register'));
+            switchToRegisterEl.addEventListener('click', () => switchAuthTab('register'));
+            switchToLoginEl.addEventListener('click', () => switchAuthTab('login'));
+            closeModalEl.addEventListener('click', () => authModalEl.style.display = 'none');
+            loginBtnEl.addEventListener('click', loginUser);
+            registerBtnEl.addEventListener('click', registerUser);
+            logoutBtnEl.addEventListener('click', logoutUser);
+        }
+        
+        // লগইন এবং রেজিস্টার ট্যাব সুইচ
+        function switchAuthTab(tab) {
+            if (tab === 'login') {
+                loginTabEl.classList.add('active');
+                registerTabEl.classList.remove('active');
+                loginFormEl.classList.add('active');
+                registerFormEl.classList.remove('active');
+            } else {
+                loginTabEl.classList.remove('active');
+                registerTabEl.classList.add('active');
+                loginFormEl.classList.remove('active');
+                registerFormEl.classList.add('active');
+            }
+        }
+        
+        // ইউজার লগইন
+        function loginUser() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            if (!email || !password) {
+                showAdNotification("ইমেইল এবং পাসওয়ার্ড উভয়ই লিখুন");
+                return;
+            }
+            
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // লগইন সফল
+                    showAdNotification("লগইন সফল হয়েছে!");
+                })
+                .catch((error) => {
+                    showAdNotification(error.message);
+                });
+        }
+        
+        // নতুন ইউজার রেজিস্টার
+        function registerUser() {
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+            
+            if (!name || !email || !password || !confirmPassword) {
+                showAdNotification("সব ফিল্ড পূরণ করুন");
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showAdNotification("পাসওয়ার্ড মিলছে না");
+                return;
+            }
+            
+            if (password.length < 6) {
+                showAdNotification("পাসওয়ার্ড কমপক্ষে ৬ ক্যারেক্টার হতে হবে");
+                return;
+            }
+            
+            auth.createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // ইউজার তৈরি হয়েছে
+                    return userCredential.user.updateProfile({
+                        displayName: name
+                    }).then(() => {
+                        // ফায়ারস্টোরে ইউজার ডকুমেন্ট তৈরি করুন
+                        return db.collection('users').doc(userCredential.user.uid).set({
+                            name: name,
+                            email: email,
+                            watchedAds: 0,
+                            points: 0,
+                            withdrawals: [],
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                    });
+                })
+                .then(() => {
+                    showAdNotification("রেজিস্ট্রেশন সফল হয়েছে!");
+                    switchAuthTab('login');
+                })
+                .catch((error) => {
+                    showAdNotification(error.message);
+                });
+        }
+        
+        // ইউজার লগআউট
+        function logoutUser() {
+            auth.signOut().then(() => {
+                showAdNotification("সফলভাবে লগআউট হয়েছে");
+            }).catch((error) => {
+                showAdNotification(error.message);
+            });
+        }
+        
+        // ফায়ারস্টোর থেকে ইউজার ডেটা লোড
+        function loadUserData(userId) {
+            db.collection('users').doc(userId).get()
+                .then(doc => {
+                    if (doc.exists) {
+                        const userData = doc.data();
+                        watchedAdsCount = userData.watchedAds || 0;
+                        earnedPoints = userData.points || 0;
+                        updateUI();
+                    }
+                })
+                .catch(error => {
+                    console.error("ইউজার ডেটা লোডে ত্রুটি:", error);
+                });
+        }
+        
+        // ফায়ারস্টোরে ইউজার ডেটা সেভ
+        function saveUserData() {
+            if (!currentUser) return;
+            
+            db.collection('users').doc(currentUser.uid).update({
+                watchedAds: watchedAdsCount,
+                points: earnedPoints
+            })
+            .catch(error => {
+                console.error("ইউজার ডেটা সেভে ত্রুটি:", error);
+            });
+        }
+        
+        // UI আপডেট
+        function updateUI() {
+            watchedAdsEl.textContent = watchedAdsCount;
+            earnedPointsEl.textContent = earnedPoints.toFixed(2);
+            
+            // পয়েন্ট পরিবর্তনে অ্যানিমেশন যোগ করুন
+            earnedPointsEl.classList.remove('pulse');
+            void earnedPointsEl.offsetWidth; // রিফ্লো ট্রিগার
+            earnedPointsEl.classList.add('pulse');
+            
+            // পর্যাপ্ত পয়েন্ট না থাকলে উত্তোলন বাটন ডিজেবল
+            withdrawBtnEl.disabled = earnedPoints < MIN_WITHDRAWAL;
+        }
+        
+        // মনিটাগ ব্যবহার করে বিজ্ঞাপন দেখুন
+        function watchAd() {
+            // বিজ্ঞাপন নোটিফিকেশন দেখান
+            showAdNotification("বিজ্ঞাপন লোড হচ্ছে... অপেক্ষা করুন");
+            
+            // মনিটাগ বিজ্ঞাপন দেখান
+            if (typeof show_9593694 === 'function') {
+                show_9593694().then(() => {
+                    // বিজ্ঞাপন সফলভাবে দেখানো হয়েছে
+                    watchedAdsCount++;
+                    earnedPoints += POINTS_PER_AD;
+                    
+                    // ডেটা সেভ করুন
+                    saveUserData();
+                    updateUI();
+                    
+                    // সফলতা নোটিফিকেশন দেখান
+                    showAdNotification("বিজ্ঞাপন সম্পন্ন হয়েছে! +০.৩৫ পয়েন্ট যোগ হয়েছে");
+                }).catch(error => {
+                    console.error("বিজ্ঞাপন ত্রুটি:", error);
+                    showAdNotification("বিজ্ঞাপন দেখাতে ব্যর্থ। আবার চেষ্টা করুন।");
+                });
+            } else {
+                // সিমুলেটেড বিজ্ঞাপনের জন্য ফ্যালব্যাক
+                setTimeout(() => {
+                    watchedAdsCount++;
+                    earnedPoints += POINTS_PER_AD;
+                    
+                    // ডেটা সেভ করুন
+                    saveUserData();
+                    updateUI();
+                    
+                    // সফলতা নোটিফিকেশন দেখান
+                    showAdNotification("বিজ্ঞাপন সম্পন্ন হয়েছে! +০.৩৫ পয়েন্ট যোগ হয়েছে");
+                }, 2000);
+            }
+        }
+        
+        // Giga Ads ব্যবহার করে ভিজিট করে উপার্জন ফাংশন
+        function visitToEarn() {
+            // বাটন ডিজেবল করুন
+            visitToEarnBtnEl.disabled = true;
+            visitToEarnBtnEl.textContent = "বিজ্ঞাপন লোড হচ্ছে...";
+            
+            // Giga Ad দেখান
+            if (typeof window.showGiga === 'function') {
+                window.showGiga()
+                    .then(() => {
+                        // বিজ্ঞাপন সফলভাবে দেখানো হয়েছে
+                        earnedPoints += 0.40;
+                        saveUserData();
+                        updateUI();
+                        
+                        // বাটন সক্রিয় করুন
+                        visitToEarnBtnEl.disabled = false;
+                        visitToEarnBtnEl.textContent = "ভিজিট করে উপার্জন করুন";
+                        
+                        // নোটিফিকেশন দেখান
+                        showAdNotification("Giga Ad সম্পন্ন! +০.৪০ পয়েন্ট");
+                    })
+                    .catch(e => {
+                        console.error("Giga Ad Error:", e);
+                        
+                        // বাটন সক্রিয় করুন
+                        visitToEarnBtnEl.disabled = false;
+                        visitToEarnBtnEl.textContent = "ভিজিট করে উপার্জন করুন";
+                        
+                        // ত্রুটি নোটিফিকেশন দেখান
+                        showAdNotification("Giga Ad ব্যর্থ। পরে চেষ্টা করুন");
+                    });
+            } else {
+                // Giga Ads না থাকলে মনিটাগ অ্যাড ফ্যালব্যাক
+                if (typeof show_9593694 === 'function') {
+                    show_9593694().then(() => {
+                        earnedPoints += 0.35;
+                        saveUserData();
+                        updateUI();
+                        showAdNotification("মনিটাগ অ্যাড সম্পন্ন! +০.৩৫ পয়েন্ট");
+                    });
+                } else {
+                    showAdNotification("কোনো অ্যাড সিস্টেম প্রস্তুত নয়");
+                }
+                visitToEarnBtnEl.disabled = false;
+                visitToEarnBtnEl.textContent = "ভিজিট করে উপার্জন করুন";
+            }
+        }
+        
+        // উত্তোলন অনুরোধ
+        function requestWithdrawal() {
+            const amount = parseFloat(document.getElementById('withdraw-amount').value);
+            const method = document.getElementById('payment-method').value;
+            const details = document.getElementById('payment-details').value;
+            
+            if (!amount || !method || !details) {
+                showAdNotification("সব উত্তোলন ফিল্ড পূরণ করুন");
+                return;
+            }
+            
+            if (amount < MIN_WITHDRAWAL) {
+                showAdNotification(`ন্যূনতম উত্তোলন ৳${MIN_WITHDRAWAL.toFixed(2)} (${MIN_WITHDRAWAL} পয়েন্ট)`);
+                return;
+            }
+            
+            const requiredPoints = amount * POINTS_TO_TAKA_RATE;
+            
+            if (requiredPoints > earnedPoints) {
+                showAdNotification(`৳${amount.toFixed(2)} উত্তোলনের জন্য আপনার ${requiredPoints} পয়েন্ট প্রয়োজন`);
+                return;
+            }
+            
+            if (!currentUser) {
+                showAdNotification("উত্তোলনের জন্য আপনাকে লগইন করতে হবে");
+                return;
+            }
+            
+            // উত্তোলন অনুরোধ তৈরি করুন
+            const withdrawalData = {
+                userId: currentUser.uid,
+                amount: amount,
+                points: requiredPoints,
+                method: method,
+                details: details,
+                status: "pending",
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            
+            // উত্তোলন কালেকশনে যোগ করুন
+            db.collection('withdrawals').add(withdrawalData)
+                .then(() => {
+                    // ইউজার থেকে পয়েন্ট কাটুন
+                    earnedPoints -= requiredPoints;
+                    return db.collection('users').doc(currentUser.uid).update({
+                        points: firebase.firestore.FieldValue.increment(-requiredPoints)
+                    });
+                })
+                .then(() => {
+                    showAdNotification(`৳${amount.toFixed(2)} উত্তোলন অনুরোধ জমা হয়েছে!`);
+                    updateUI();
+                    // ফর্ম ক্লিয়ার করুন
+                    document.getElementById('withdraw-amount').value = '';
+                    document.getElementById('payment-method').value = '';
+                    document.getElementById('payment-details').value = '';
+                })
+                .catch(error => {
+                    showAdNotification("উত্তোলন প্রসেসিং ত্রুটি: " + error.message);
+                });
+        }
+        
+        // বিজ্ঞাপন নোটিফিকেশন দেখান
+        function showAdNotification(message) {
+            adNotificationEl.textContent = message;
+            adNotificationEl.style.display = 'block';
+            
+            setTimeout(() => {
+                adNotificationEl.style.display = 'none';
+            }, 3000);
+        }
+        
+        // পেজ লোড হলে অ্যাপ ইনিশিয়ালাইজ
+        window.onload = initApp;
+    </script>
+</body>
+</html>
